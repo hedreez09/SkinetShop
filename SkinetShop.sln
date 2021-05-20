@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinetShop", "SkinetShop\SkinetShop.csproj", "{68F54D5E-056A-4399-B81B-6ABAD9333C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{E91E9302-0BA9-49A9-B880-26C32AFF6BBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{F6436B50-1634-4B94-A718-8F4BFFB47E22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68F54D5E-056A-4399-B81B-6ABAD9333C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68F54D5E-056A-4399-B81B-6ABAD9333C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68F54D5E-056A-4399-B81B-6ABAD9333C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68F54D5E-056A-4399-B81B-6ABAD9333C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E91E9302-0BA9-49A9-B880-26C32AFF6BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E91E9302-0BA9-49A9-B880-26C32AFF6BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E91E9302-0BA9-49A9-B880-26C32AFF6BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E91E9302-0BA9-49A9-B880-26C32AFF6BBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6436B50-1634-4B94-A718-8F4BFFB47E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6436B50-1634-4B94-A718-8F4BFFB47E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6436B50-1634-4B94-A718-8F4BFFB47E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6436B50-1634-4B94-A718-8F4BFFB47E22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B07A618-217E-4477-B7D2-ED350C3979FB}
+	EndGlobalSection
+EndGlobal

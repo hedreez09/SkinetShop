@@ -29,6 +29,7 @@ namespace SkinetShop
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddScoped<IProductRepository, ProductRepository>();
+			services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 			services.AddDbContext<StoreContext>(option =>
 			option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
 			);

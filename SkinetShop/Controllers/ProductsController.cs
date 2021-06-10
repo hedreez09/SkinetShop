@@ -5,6 +5,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SkinetShop.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +31,41 @@ namespace SkinetShop.Controllers
 		}
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<ProductToReturnDTO>>> GetProducts()
         {
             var spec = new ProductsWithTypesAndBrandsSpecification();
 
             var product = await _productsRepo.ListAsync(spec);
 
-            return Ok(product);
+            return product.Select(product => new ProductToReturnDTO
+            {
+                id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                PictureUrl = product.PictureUrl,
+                Price = product.Price,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+
+            }).ToList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
-            return await _productsRepo.GetEntityWithSpec(spec);
+            var product= await _productsRepo.GetEntityWithSpec(spec);
+
+            return new ProductToReturnDTO
+            {
+                id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                PictureUrl = product.PictureUrl,
+                Price = product.Price,
+                ProductBrand = product.ProductBrand.Name,
+                ProductType = product.ProductType.Name
+            };
         }
 
         [HttpGet("brands")]

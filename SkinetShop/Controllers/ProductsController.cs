@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Interface;
+using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,9 @@ namespace SkinetShop.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var product = await _productsRepo.ListAllAsync();
+            var spec = new ProductsWithTypesAndBrandsSpecification();
+
+            var product = await _productsRepo.ListAsync(spec);
 
             return Ok(product);
         }

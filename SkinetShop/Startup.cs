@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SkinetShop.Errors;
 using SkinetShop.Helpers;
 using SkinetShop.Middleware;
 using System;
@@ -37,6 +38,25 @@ namespace SkinetShop
 			option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
 			);
 			services.AddControllers();
+
+			services.Configure<ApiBehaviorOptions>(options =>
+			options.InvalidModelStateResponseFactory = actionContext =>
+			{
+				var errors = actionContext.ModelState
+				.Where(e => e.Value.Errors.Count > 0)
+				.SelectMany(x => x.Value.Errors)
+				.Select(s => s.ErrorMessage).ToArray();
+
+
+				var errorResponse = new ApiValidationErrorResponse
+				{
+					Errors = errors
+				};
+
+				return new BadRequestObjectResult(errorResponse);
+			
+			});
+
 			//services.AddSwaggerGen(c =>
 			//{
 			//	c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

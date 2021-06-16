@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace SkinetShop.Controllers
 {
 	[Route("errors/{code}")]
+	[ApiExplorerSettings(IgnoreApi = true)] // this allow swagger index page display
 	public class ErrorController : BaseApiController
 	{
 		public IActionResult Error(int code)

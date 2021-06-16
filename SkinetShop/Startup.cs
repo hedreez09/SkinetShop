@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using SkinetShop.Errors;
 using SkinetShop.Helpers;
 using SkinetShop.Middleware;
@@ -57,10 +58,10 @@ namespace SkinetShop
 			
 			});
 
-			//services.AddSwaggerGen(c =>
-			//{
-			//	c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-			//});
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,10 +69,8 @@ namespace SkinetShop
 		{
 			app.UseMiddleware<ExceptionMiddleware>();
 
-			if (env.IsDevelopment())
-			{
-				
-			}
+			app.UseSwagger();
+			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SkinetShop.Errors;
+using SkinetShop.Extensions;
 using SkinetShop.Helpers;
 using SkinetShop.Middleware;
 using System;
@@ -32,36 +33,15 @@ namespace SkinetShop
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddScoped<IProductRepository, ProductRepository>();
-			services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+			
 			services.AddAutoMapper(typeof(MappingProfile));
 			services.AddDbContext<StoreContext>(option =>
 			option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
 			);
 			services.AddControllers();
-
-			services.Configure<ApiBehaviorOptions>(options =>
-			options.InvalidModelStateResponseFactory = actionContext =>
-			{
-				var errors = actionContext.ModelState
-				.Where(e => e.Value.Errors.Count > 0)
-				.SelectMany(x => x.Value.Errors)
-				.Select(s => s.ErrorMessage).ToArray();
-
-
-				var errorResponse = new ApiValidationErrorResponse
-				{
-					Errors = errors
-				};
-
-				return new BadRequestObjectResult(errorResponse);
+			services.AddSwaggerDocumentation();
+			services.AddApplicationServices();
 			
-			});
-
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,8 +49,7 @@ namespace SkinetShop
 		{
 			app.UseMiddleware<ExceptionMiddleware>();
 
-			app.UseSwagger();
-			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+			
 
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
@@ -81,6 +60,8 @@ namespace SkinetShop
 			app.UseStaticFiles();
 
 			app.UseAuthorization();
+
+			app.UseSwaggerDocumentation();
 
 			app.UseEndpoints(endpoints =>
 			{

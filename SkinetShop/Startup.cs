@@ -41,6 +41,13 @@ namespace SkinetShop
 			services.AddControllers();
 			services.AddSwaggerDocumentation();
 			services.AddApplicationServices();
+			services.AddCors(opt =>
+			{
+				opt.AddPolicy("CorsPolicy", policy =>
+				{
+					policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+				});
+			});
 			
 		}
 
@@ -58,6 +65,8 @@ namespace SkinetShop
 			app.UseRouting();
 
 			app.UseStaticFiles();
+
+			app.UseCors("CorsPolicy");
 
 			app.UseAuthorization();
 

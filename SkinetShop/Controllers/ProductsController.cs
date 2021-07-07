@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkinetShop.DTOs;
 using SkinetShop.Errors;
+using SkinetShop.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,14 +35,19 @@ namespace SkinetShop.Controllers
 		}
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductToReturnDTO>>> GetProducts()
-        {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+        public async Task<ActionResult<Pagination<ProductToReturnDTO>>> GetProducts([FromQuery]ProductSpecParams productParams)
+        { 
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
 
+            var countSpec = new ProductWithFiltersForCountSpecification(productParams);// the give counts of items
+
+            var totalItems = await _productsRepo.CountAsync(countSpec);
+           
             var product = await _productsRepo.ListAsync(spec);
-            var mappingObj = _mapper.Map<List<Product>, List<ProductToReturnDTO>>(product);
+            var data = _mapper.Map<List<Product>, List<ProductToReturnDTO>>(product);
 
-            return Ok(mappingObj);
+            return Ok(new Pagination<ProductToReturnDTO>(productParams.PageIndex,
+                productParams.Pagesize, totalItems, data));
         }
 
         [HttpGet("{id}")]
